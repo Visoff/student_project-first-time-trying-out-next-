@@ -17,7 +17,10 @@ export default function Main({openPopup}:Props) {
             123
             <button onClick={() => {
                 openPopup(<>
-                    {Forms.map((e:any) => {return <p key={e.name}>{e.name}</p>})}
+                    {Forms.map((e:any) => {return <div key={e.name}>
+                        <h1>{e.header}</h1>
+                        <input type="text" placeholder={e.placeholder} />
+                    </div>})}
                 </>)
             }}>open</button>
             <button onClick={() => {
