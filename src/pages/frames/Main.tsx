@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import style from "./Main.module.css"
+import DisplayFrom from "../components/DisplayForm"
+import EditForm from "../components/EditForm"
 
 interface Props {
     openPopup:Function
@@ -7,22 +9,24 @@ interface Props {
 
 export default function Main({openPopup}:Props) {
     const [Forms, setForms] = useState([])
+    const [AllForms, setAllForms] = useState([])
+    const [FormId, setFormId] = useState(1)
     useEffect(() => {
         (async () => {
-            setForms(await (await fetch("http://localhost:3000/api/form", {method:"GET"})).json())
+            setForms(await (await fetch(`http://localhost:3000/api/form/${FormId}/full`, {method:"GET"})).json())
+        })()
+    }, [FormId])
+    useEffect(() => {
+        (async () => {
+            setAllForms(await (await fetch(`http://localhost:3000/api/form`, {method:"GET"})).json())
         })()
     }, [])
     return (
         <div className={style.container}>
-            123
+            <input type="number" value={FormId} onChange={e => {setFormId(Number.parseInt((e.target as HTMLInputElement).value))}} />
             <button onClick={() => {
-                openPopup(<>
-                    {Forms.map((e:any) => {return <div key={e.name}>
-                        <h1>{e.header}</h1>
-                        <input type="text" placeholder={e.placeholder} />
-                    </div>})}
-                </>)
-            }}>open</button>
+                openPopup(<DisplayFrom formId={FormId} />)
+            }}>GET</button>
             <button onClick={() => {
                 openPopup(<>
                     <form onSubmit={e => {
@@ -31,20 +35,26 @@ export default function Main({openPopup}:Props) {
                         fetch("http://localhost:3000/api/form", {
                             method:"POST",
                             body:JSON.stringify({
-                                "name":((e.target as HTMLFormElement)[0] as HTMLInputElement).value,
-                                "type":((e.target as HTMLFormElement)[0] as HTMLSelectElement).value
+                                "name":((e.target as HTMLFormElement)[0] as HTMLInputElement).value
                             })
                         })
                     }}>
                         <input type="text" name="name" />
-                        <select name="type">
-                            <option value="text">text</option>
-                            <option value="date">date</option>
-                        </select>
-                        <button type="submit"></button>
+                        <button type="submit">Submit</button>
                     </form>
                 </>)
-            }}>open x2</button>
+            }}>POST</button>
+            <button onClick={e => {
+                openPopup(<>
+                    {AllForms.map((el:{id:number, name:string}) => {
+                        return <button onClick={e => {
+                            openPopup(<>
+                                <EditForm OriginForm={el} />
+                            </>)
+                        }}>{el.name}</button>
+                    })}
+                </>)
+            }}>UPDATE</button>
         </div>
     )
 }
