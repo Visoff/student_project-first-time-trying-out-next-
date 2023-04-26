@@ -67,7 +67,7 @@ export default function EditForm({OriginForm}:Props) {
                     form.filter((el:any) => {return Pages[CurrentPage] != undefined && el.page_id == Pages[CurrentPage].id}).map((el, i) => {
                         return <div key={el.field_id}>
                             <Input type="text" placeholder="Название" defaultValue={el.field_header} onTimedChange={async (newHeader: string) => {
-                                await fetch(`http://localhost:3000/api/field/${el.field_id}/field`, {
+                                await fetch(`http://localhost:3000/api/field/${el.field_id}`, {
                                     method:"PATCH",
                                     body:JSON.stringify({
                                         header:newHeader
@@ -77,7 +77,7 @@ export default function EditForm({OriginForm}:Props) {
                             }}/>
                             <select onChange={e => {
                                 (async () => {
-                                    await fetch(`http://localhost:3000/api/field/${el.field_id}/field`, {
+                                    await fetch(`http://localhost:3000/api/field/${el.field_id}`, {
                                         method:"PATCH",
                                         body:JSON.stringify({
                                             type:e.target.value
@@ -92,7 +92,7 @@ export default function EditForm({OriginForm}:Props) {
                                 <option value="checkbox">клик!</option>
                             </select>
                             <Input type="text" placeholder="Пример" defaultValue={el.field_placeholder} onTimedChange={async (newPlaceholder: string) => {
-                                await fetch(`http://localhost:3000/api/field/${el.field_id}/field`, {
+                                await fetch(`http://localhost:3000/api/field/${el.field_id}`, {
                                     method:"PATCH",
                                     body:JSON.stringify({
                                         placeholder:newPlaceholder

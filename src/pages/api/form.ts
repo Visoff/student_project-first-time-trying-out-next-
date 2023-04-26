@@ -7,7 +7,7 @@ export default async function handler(
   ) {
     switch (req.method) {
       case "GET":
-        res.status(200).json((await globalThis.postgres.query("select id, name from forms")).rows)
+        res.status(200).json((await globalThis.postgres.query("select id, name from forms")).rows satisfies {id:number, name:string}[])
         break
       case "POST":
       req.body = JSON.parse(req.body)
@@ -16,7 +16,10 @@ export default async function handler(
         typeof req.body.name == "string"
       )) {return res.status(400).json("you messed up")}
 
-      res.status(200).json((await globalThis.postgres.query(`insert into forms(name) values('${req.body.name}')`)).rows)
+      const form = (await globalThis.postgres.query(`insert into forms(name) values('${req.body.name}') returning id`)).rows[0].id
+      const page = (await globalThis.postgres.query(`insert into page(form) values('${form}') returning id`)).rows[0].id
+      const field = (await globalThis.postgres.query(`insert into field(form_page, type, header, placeholder) values('${page}', 'text', '', '') returning id`)).rows[0].id
+      res.status(200).json({id:form, name:req.body.name} satisfies {id:number, name:string})
       break
       case "PATCH":
         break

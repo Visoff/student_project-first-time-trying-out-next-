@@ -1,0 +1,359 @@
+openapi: 3.0.0
+info:
+  title: Next.js API Endpoints
+  version: '1.0'
+paths:
+  /api/form:
+    get:
+      summary: Get all forms
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create a new form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                required:
+                  - id
+                  - name
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/field/{field}:
+    get:
+      summary: Get a specific field by ID
+      parameters:
+        - in: path
+          name: field
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    header:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - text
+                        - email
+                        - checkbox
+                        - number
+                    placeholder:
+                      type: string
+    patch:
+      summary: Update a specific field by ID
+      parameters:
+        - in: path
+          name: field
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/page/{page}:
+    get:
+      summary: Get all fields for a specific page
+      parameters:
+        - in: path
+          name: page
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    header:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - text
+                        - email
+                        - checkbox
+                        - number
+                    placeholder:
+                      type: string
+    post:
+      summary: Create a new field for a specific page
+      parameters:
+        - in: path
+          name: page
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - text
+                    - email
+                    - checkbox
+                    - number
+                placeholder:
+                  type: string
+              required:
+                - header
+                - type
+                - placeholder
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+    patch:
+      summary: Update a specific field by ID
+      parameters:
+        - in: path
+          name: page
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/form/{form}/full:
+    get:
+      summary: Get all fields for a specific form
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field_id:
+                      type: number
+                    field_header:
+                      type: string
+                    field_type:
+                      type: string
+                      enum:
+                        - text
+                        - email
+                        - checkbox
+                        - number
+                    field_placeholder:
+                      type: string
+                    page_id:
+                      type: number
+                    form_id:
+                      type: number
+                    form_name:
+                      type: string
+  /api/form/{form}/page:
+    get:
+      summary: Get all pages for a specific form
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    form:
+                      type: number
+                    header:
+                      type: string
+    post:
+      summary: Create a new page for a specific form
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+    patch:
+      summary: Update a specific page by ID
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/form/{form}/submit:
+    get:
+      summary: Get all submitions for a specific form
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    field:
+                      type: number
+                    value:
+                      type: string
+    post:
+      summary: Submit a form
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              minProperties: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string

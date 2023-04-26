@@ -8,7 +8,7 @@ export default async function handler(
     const { form } = req.query
     switch (req.method) {
       case "GET":
-        res.status(200).json((await globalThis.postgres.query(`select submition.* from submition  where submition.form = ${form}`)).rows)
+        res.status(200).json((await globalThis.postgres.query(`select submition.* from submition  where submition.form = ${form}`)).rows satisfies {id:number, field:number, value:string}[])
       break
       case "POST":
         const body = JSON.parse(req.body)

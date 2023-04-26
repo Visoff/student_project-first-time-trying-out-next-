@@ -22,7 +22,15 @@ export default async function handler(
             inner join page on page.id = field.form_page and page.form = ${form}
             inner join forms on forms.id = page.form
         order by field.id
-        `)).rows)
+        `)).rows satisfies {
+            field_id:number,
+            field_header:string,
+            field_type:"text"|"email"|"checkbox"|"number",
+            field_placeholder:string,
+            page_id:number,
+            form_id:number,
+            form_name:string
+          }[])
       break
   }
 }
