@@ -31,15 +31,20 @@ export default function Main({openPopup}:Props) {
                 openPopup(<>
                     <form onSubmit={e => {
                         e.preventDefault();
-                        console.log(e)
-                        fetch("http://localhost:3000/api/form", {
-                            method:"POST",
-                            body:JSON.stringify({
-                                "name":((e.target as HTMLFormElement)[0] as HTMLInputElement).value
+                        (async () => {
+                            const res = await fetch(`http://localhost:3000/api/form`, {
+                                method:"POST",
+                                body:JSON.stringify({
+                                    "name":((e.target as HTMLFormElement)[0] as HTMLInputElement).value,
+                                    "code":((e.target as HTMLFormElement)[1] as HTMLInputElement).value
+                                })
                             })
-                        })
+                            const form = await res.json()
+                            alert(`http://localhost:3000/${form.id}/${form.code}`)
+                        })()
                     }}>
                         <input type="text" name="name" />
+                        <input type="text" name="code" />
                         <button type="submit">Submit</button>
                     </form>
                 </>)
