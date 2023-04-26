@@ -21,7 +21,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main openPopup={OpenPopup}></Main>
-      {PopupActive ? <Popup PopupActiveState={[PopupActive, setPopupActive]}>{PopupContent}</Popup> : undefined}
+      {PopupActive ? <Popup PopupActive={PopupActive} setPopupActive={setPopupActive}>{PopupContent}</Popup> : undefined}
     </>
   )
 }

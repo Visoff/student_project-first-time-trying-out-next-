@@ -1,0 +1,19 @@
+FROM node:16
+
+WORKDIR /next_student_labs
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+ENV DB_HOST=localhost
+ENV DB_DB_USER=some_usert
+ENV DB_PASSWORD=some_password
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD [ "npm", "run", "start" ]

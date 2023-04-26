@@ -1,9 +1,9 @@
 interface Props {
-    PopupActiveState:[boolean, Function]
+    PopupActive:boolean,
+    setPopupActive:Function
 }
 
-export default function Popup({PopupActiveState, children}:React.PropsWithChildren<Props>) {
-    const [PopupActive, setPopupActive] = PopupActiveState
+export default function Popup({PopupActive, setPopupActive, children}:React.PropsWithChildren<Props>) {
     return (
         <div className="popup" onClick={(e) => {
             if ((e.target as HTMLElement).classList.contains("popup")) {

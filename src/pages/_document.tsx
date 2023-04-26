@@ -6,10 +6,10 @@ declare global {
 }
 
 const postgres = new Client({
-  user:"some_user",
-  host:"localhost",
+  user:process.env.DB_USER,
+  host:process.env.DB_HOST,
   database:"dev",
-  password:"some_password",
+  password:process.env.DB_PASSWORD,
   port:5432
 })
 
