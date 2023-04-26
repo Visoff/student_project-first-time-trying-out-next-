@@ -8,8 +8,8 @@ RUN npm install
 
 COPY . .
 
-ENV DB_HOST=localhost
-ENV DB_DB_USER=some_usert
+ENV DB_HOST=176.119.159.214
+ENV DB_USER=some_user
 ENV DB_PASSWORD=some_password
 
 RUN npm run build

@@ -13,12 +13,12 @@ export default function Main({openPopup}:Props) {
     const [FormId, setFormId] = useState(1)
     useEffect(() => {
         (async () => {
-            setForms(await (await fetch(`http://localhost:3000/api/form/${FormId}/full`, {method:"GET"})).json())
+            setForms(await (await fetch(`http://176.119.159.214:3000/api/form/${FormId}/full`, {method:"GET"})).json())
         })()
     }, [FormId])
     useEffect(() => {
         (async () => {
-            setAllForms(await (await fetch(`http://localhost:3000/api/form`, {method:"GET"})).json())
+            setAllForms(await (await fetch(`http://176.119.159.214:3000/api/form`, {method:"GET"})).json())
         })()
     }, [])
     return (
@@ -32,7 +32,7 @@ export default function Main({openPopup}:Props) {
                     <form onSubmit={e => {
                         e.preventDefault();
                         (async () => {
-                            const res = await fetch(`http://localhost:3000/api/form`, {
+                            const res = await fetch(`http://176.119.159.214:3000/api/form`, {
                                 method:"POST",
                                 body:JSON.stringify({
                                     "name":((e.target as HTMLFormElement)[0] as HTMLInputElement).value,
@@ -40,7 +40,7 @@ export default function Main({openPopup}:Props) {
                                 })
                             })
                             const form = await res.json()
-                            alert(`http://localhost:3000/${form.id}/${form.code}`)
+                            alert(`http://176.119.159.214:3000/${form.id}/${form.code}`)
                         })()
                     }}>
                         <input type="text" name="name" />

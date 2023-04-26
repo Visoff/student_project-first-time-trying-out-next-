@@ -27,26 +27,26 @@ export default function EditForm({OriginForm}:Props) {
 
     useEffect(() => {
         (async () => {
-            setForm(await (await fetch(`http://localhost:3000/api/form/${OriginForm.id}/full`, {method:"GET"})).json())
+            setForm(await (await fetch(`http://176.119.159.214:3000/api/form/${OriginForm.id}/full`, {method:"GET"})).json())
         })()
     }, [RandInt])
 
     useEffect(() => {
         (async () => {
-            setPages(await (await fetch(`http://localhost:3000/api/form/${OriginForm.id}/page`, {method:"GET"})).json())
+            setPages(await (await fetch(`http://176.119.159.214:3000/api/form/${OriginForm.id}/page`, {method:"GET"})).json())
         })()
         console.log(Pages)
     }, [RandInt])
     if (form.length == 0) {return <></>}
 
     async function createNewPage() {
-        console.log(await (await fetch(`http://localhost:3000/api/form/${OriginForm.id}/page`, {
+        console.log(await (await fetch(`http://176.119.159.214:3000/api/form/${OriginForm.id}/page`, {
             method:"POST"
         })).json())
         setRandInt(Math.floor(Math.random()*100))
     }
     async function createNewField() {
-        await fetch(`http://localhost:3000/api/page/${Pages[CurrentPage].id}/field`, {
+        await fetch(`http://176.119.159.214:3000/api/page/${Pages[CurrentPage].id}/field`, {
             method:"POST",
             body:JSON.stringify({
                 header:"Название",
@@ -67,7 +67,7 @@ export default function EditForm({OriginForm}:Props) {
                     form.filter((el:any) => {return Pages[CurrentPage] != undefined && el.page_id == Pages[CurrentPage].id}).map((el, i) => {
                         return <div key={el.field_id}>
                             <Input type="text" placeholder="Название" defaultValue={el.field_header} onTimedChange={async (newHeader: string) => {
-                                await fetch(`http://localhost:3000/api/field/${el.field_id}`, {
+                                await fetch(`http://176.119.159.214:3000/api/field/${el.field_id}`, {
                                     method:"PATCH",
                                     body:JSON.stringify({
                                         header:newHeader
@@ -77,7 +77,7 @@ export default function EditForm({OriginForm}:Props) {
                             }}/>
                             <select onChange={e => {
                                 (async () => {
-                                    await fetch(`http://localhost:3000/api/field/${el.field_id}`, {
+                                    await fetch(`http://176.119.159.214:3000/api/field/${el.field_id}`, {
                                         method:"PATCH",
                                         body:JSON.stringify({
                                             type:e.target.value
@@ -92,7 +92,7 @@ export default function EditForm({OriginForm}:Props) {
                                 <option value="checkbox">клик!</option>
                             </select>
                             <Input type="text" placeholder="Пример" defaultValue={el.field_placeholder} onTimedChange={async (newPlaceholder: string) => {
-                                await fetch(`http://localhost:3000/api/field/${el.field_id}`, {
+                                await fetch(`http://176.119.159.214:3000/api/field/${el.field_id}`, {
                                     method:"PATCH",
                                     body:JSON.stringify({
                                         placeholder:newPlaceholder
