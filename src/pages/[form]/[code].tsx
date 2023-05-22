@@ -9,7 +9,7 @@ export default function func() {
     const [Submition_values, setSubmition_values] = useState([] as {id:number, field:number, value:string, submition:number, field_header:string}[]);
     useEffect(() => {
         (async () => {
-            setSubmition_values(await (await fetch(`http://176.119.159.214:3000/api/form/${form}/submit`, {method:"GET"})).json())
+            setSubmition_values(await (await fetch(`http://localhost:3000/api/form/${form}/submit`, {method:"GET"})).json())
         })()
     }, [form])
     if (form == undefined) {

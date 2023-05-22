@@ -16,7 +16,7 @@ export default function DisplayFrom({formId}:Props) {
     const [form, setForm] = useState([] as form)
     useEffect(() => {
         (async () => {
-            setForm(await (await fetch(`http://176.119.159.214:3000/api/form/${formId}/full`, {method:"GET"})).json())
+            setForm(await (await fetch(`http://localhost:3000/api/form/${formId}/full`, {method:"GET"})).json())
         })()
     }, [])
     const [pages, setPages] = useState(form.map(el => {return el.page_id}).filter((val, i, arr) => {return arr.indexOf(val) == i}))
@@ -36,7 +36,7 @@ export default function DisplayFrom({formId}:Props) {
     }
 
     async function send() {
-        const res = await fetch(`http://176.119.159.214:3000/api/form/${formId}/submit`, {
+        const res = await fetch(`http://localhost:3000/api/form/${formId}/submit`, {
             method:"POST",
             body:JSON.stringify(Answers)
         })
