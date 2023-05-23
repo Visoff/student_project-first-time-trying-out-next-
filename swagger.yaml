@@ -3,6 +3,30 @@ info:
   title: Next.js API Endpoints
   version: '1.0'
 paths:
+  /{form}:
+    get:
+      summary: Пройти опрос
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: html rendered with React to take a form
+  /{form}/analytics:
+    get:
+      summary: посмотреть ответы
+      parameters:
+        - in: path
+          name: form
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: html rendered with React to see form analytics
   /api/form:
     get:
       summary: Get all forms
