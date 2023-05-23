@@ -1,6 +1,21 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import MongoDb, { MongoClient } from "mongodb"
+import pg from 'pg'
+
+declare global {
+    var postgres:pg.Client;
+}
+
+const postgres = new pg.Client({
+  user:process.env.DB_USER||"some_user",
+  host:process.env.DB_HOST||"db",
+  database:"dev",
+  password:process.env.DB_PASSWORD||"some_password",
+  port:5432
+})
+
+postgres.connect().then(e => {console.log("postgres connected")}).catch(e => {console.error(e)})
+globalThis.postgres = postgres
 
 
 export default async function handler(

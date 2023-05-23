@@ -19,8 +19,11 @@ paths:
               properties:
                 name:
                   type: string
+                code:
+                  type: string
               required:
                 - name
+                - code
       responses:
         '200':
           description: OK
@@ -74,6 +77,8 @@ paths:
                         - number
                     placeholder:
                       type: string
+                    form_page:
+                      type: number
     patch:
       summary: Update a specific field by ID
       parameters:
@@ -87,6 +92,18 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                header:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                      - text
+                      - email
+                      - checkbox
+                      - number
+                placeholder:
+                  type: string
       responses:
         '200':
           description: OK
@@ -96,7 +113,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/page/{page}:
+  /api/page/{page}/field:
     get:
       summary: Get all fields for a specific page
       parameters:
@@ -163,32 +180,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: string
-    patch:
-      summary: Update a specific field by ID
-      parameters:
-        - in: path
-          name: page
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: OK
+                type: number
+                description: id pf created field
         '400':
           description: Bad Request
           content:
@@ -254,10 +247,10 @@ paths:
                   properties:
                     id:
                       type: number
+                      description: page id
                     form:
                       type: number
-                    header:
-                      type: string
+                      description: form id
     post:
       summary: Create a new page for a specific form
       parameters:
@@ -266,43 +259,14 @@ paths:
           required: true
           schema:
             type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: string
-    patch:
-      summary: Update a specific page by ID
-      parameters:
-        - in: path
-          name: form
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: OK
+                type: number
+                description: id of inserted page
         '400':
           description: Bad Request
           content:
@@ -330,9 +294,13 @@ paths:
                   properties:
                     id:
                       type: number
+                      description: submition id
                     field:
                       type: number
+                      description: field id
                     value:
+                      type: string
+                    field_header:
                       type: string
     post:
       summary: Submit a form
@@ -347,9 +315,7 @@ paths:
           application/json:
             schema:
               type: object
-              additionalProperties:
-                type: string
-              minProperties: 1
+              description: stringified filed as key and value as value
       responses:
         '200':
           description: OK

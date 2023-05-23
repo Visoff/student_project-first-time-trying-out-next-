@@ -26,7 +26,9 @@ export default async function handler(
         res.status(200).json((await globalThis.postgres.query("select id, name from forms")).rows satisfies {id:number, name:string}[])
         break
       case "POST":
-      req.body = JSON.parse(req.body)
+      if (typeof req.body == "string") {
+        req.body = JSON.parse(req.body)
+      }
 
       if (!(req.body != undefined &&
         typeof req.body.name == "string"
